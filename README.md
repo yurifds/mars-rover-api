@@ -42,7 +42,7 @@ Output: (0, 2, W)
 ```
 
 ```
-Repeat request for rotation for the Left:
+Repeating the previous request:
 Input: curl -s --request POST http://localhost:8080/mars-rover/api/v1/MML
 Output: (0, 2, W)
 ```
