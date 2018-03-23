@@ -59,18 +59,21 @@ Input: curl -s --request POST http://localhost:8080/mars-rover/api/v1/MMMMMMMMMM
 Output: 400 Bad Request
 ```
 
+
 ### Language and Libraries used:
 
 - Java 8
 - Spring Framework
 - Swagger
 
-## Usage
+
+### Usage
 
 - To run the server: in the project directory `mvn spring-boot:run` starts the project.
 - Use `mvn test` in the project directory to run all the tests.
 - With the server started, you can access the Swagger documentation and interact with the API
 using the [link](http://localhost:8080/).
+
 
 ### Endpoints
 
