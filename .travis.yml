@@ -1,0 +1,15 @@
+env:
+  global:
+    - CC_TEST_REPORTER_ID=bd93a65a05c16d049ac9636e1c5253c5d8a3315220c1d191a9fdf26e4bf0e86d
+language: java
+jdk:
+  - oraclejdk8
+before_script:
+  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+  - chmod +x ./cc-test-reporter
+  - ./cc-test-reporter before-build
+script:
+  - mvn test
+  - mvn jacoco:report
+after_script:
+  - ./cc-test-reporter after-build -t jacoco /target/site/jacoco/jacoco.xml --exit-code $TRAVIS_TEST_RESULT
