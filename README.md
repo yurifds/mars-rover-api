@@ -18,7 +18,7 @@ In order to control a rover, NASA sends a simple string of letters. The possible
 Assume that the square directly North from (x, y) is (x, y+1).
 
 
-### Challenge Requirements 
+### Challenge Requirements: 
 
 - The Terrain must start with 5x5 Positions;
 - The Rover starts at coordinate (0,0,N);
@@ -26,6 +26,28 @@ Assume that the square directly North from (x, y) is (x, y+1).
 - The Rover may not exceed the terrain limit of 5x5 positions.
 - The API can't maintain state between requests.
 
+
+### Some test cases:
+
+Rotation for the Right:
+Input: curl -s --request POST http://localhost:8080/mars-rover/api/v1/MMRMMRMM
+Output: (2, 0, S)
+
+Rotation for the Left:
+Input: curl -s --request POST http://localhost:8080/mars-rover/api/v1/MML
+Output: (0, 2, W)
+
+Repeat request for rotation for the Left:
+Input: curl -s --request POST http://localhost:8080/mars-rover/api/v1/MML
+Output: (0, 2, W)
+
+Invalid Command:
+Input: curl -s --request POST http://localhost:8080/mars-rover/api/v1/AAA
+Output: 400 Bad Request
+
+Invalid Position:
+Input: curl -s --request POST http://localhost:8080/mars-rover/api/v1/MMMMMMMMMMMMMMMMMMMMMMMM
+Output: 400 Bad Request
 
 ### Language and Libraries used:
 
