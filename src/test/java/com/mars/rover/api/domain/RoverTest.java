@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.mars.rover.api.enums.OrientationEnum;
+import com.mars.rover.api.enums.CardinalDirection;
 
 
 @RunWith(SpringRunner.class)
@@ -21,87 +21,87 @@ public class RoverTest {
 	
 	@Test
 	public void testTurnRight() {
-		assertThat(rover.getOrientation(), is(OrientationEnum.NORTH));
-		rover.turnFor("R");
-		assertThat(rover.getOrientation(), is(OrientationEnum.EAST));
+		assertThat(rover.getOrientation(), is(CardinalDirection.NORTH));
+		rover.turnRight();
+		assertThat(rover.getOrientation(), is(CardinalDirection.EAST));
 	}
 	
 	@Test
 	public void testTurnLeft() {
-		assertThat(rover.getOrientation(), is(OrientationEnum.NORTH));
-		rover.turnFor("L");
-		assertThat(rover.getOrientation(), is(OrientationEnum.WEST));
+		assertThat(rover.getOrientation(), is(CardinalDirection.NORTH));
+		rover.turnLeft();
+		assertThat(rover.getOrientation(), is(CardinalDirection.WEST));
 	}
 	
 	@Test
 	public void testMoveOn() {
-		assertThat(rover.getOrientation(), is(OrientationEnum.NORTH));
-		assertThat(rover.getCoordinate().getY(), is(0));
+		assertThat(rover.getOrientation(), is(CardinalDirection.NORTH));
+		assertThat(rover.getCoordinate().getCoordinateY(), is(0));
 		rover.moveOn();
-		assertThat(rover.getCoordinate().getY(), is(1));
-		assertThat(rover.getCoordinate().getX(), is(0));
+		assertThat(rover.getCoordinate().getCoordinateY(), is(1));
+		assertThat(rover.getCoordinate().getCoordinateX(), is(0));
 	}
 	
 	@Test
 	public void testMoveToRight() {
-		assertThat(rover.getOrientation(), is(OrientationEnum.NORTH));
-		rover.turnFor("R");
-		assertThat(rover.getOrientation(), is(OrientationEnum.EAST));
+		assertThat(rover.getOrientation(), is(CardinalDirection.NORTH));
+		rover.turnRight();
+		assertThat(rover.getOrientation(), is(CardinalDirection.EAST));
 		rover.moveOn();
-		assertThat(rover.getCoordinate().getX(), is(1));
-		assertThat(rover.getCoordinate().getY(), is(0));
+		assertThat(rover.getCoordinate().getCoordinateX(), is(1));
+		assertThat(rover.getCoordinate().getCoordinateY(), is(0));
 	}
 	
 	@Test
 	public void testMoveToLeft() {
-		assertThat(rover.getOrientation(), is(OrientationEnum.NORTH));
-		rover.turnFor("R");
+		assertThat(rover.getOrientation(), is(CardinalDirection.NORTH));
+		rover.turnRight();
 		rover.moveOn();
 		rover.moveOn();
-		assertThat(rover.getCoordinate().getX(), is(2));
+		assertThat(rover.getCoordinate().getCoordinateX(), is(2));
 		
-		rover.turnFor("L");
-		rover.turnFor("L");
+		rover.turnLeft();
+		rover.turnLeft();
 		
-		assertThat(rover.getOrientation(), is(OrientationEnum.WEST));
+		assertThat(rover.getOrientation(), is(CardinalDirection.WEST));
 		
 		rover.moveOn();
 		
-		assertThat(rover.getCoordinate().getX(), is(1));
+		assertThat(rover.getCoordinate().getCoordinateX(), is(1));
 	}
 	
 	@Test
 	public void testMoveToSouth() {
-		assertThat(rover.getOrientation(), is(OrientationEnum.NORTH));
+		assertThat(rover.getOrientation(), is(CardinalDirection.NORTH));
 		rover.moveOn();
 		rover.moveOn();
 		
-		assertThat(rover.getCoordinate().getY(), is(2));
-		rover.turnFor("L");
-		assertThat(rover.getOrientation(), is(OrientationEnum.WEST));
+		assertThat(rover.getCoordinate().getCoordinateY(), is(2));
+		rover.turnLeft();
+		assertThat(rover.getOrientation(), is(CardinalDirection.WEST));
 		
-		rover.turnFor("L");
-		assertThat(rover.getOrientation(), is(OrientationEnum.SOUTH));
+		rover.turnLeft();
+		assertThat(rover.getOrientation(), is(CardinalDirection.SOUTH));
 		
 		rover.moveOn();
 		
-		assertThat(rover.getCoordinate().getY(), is(1));
-		assertThat(rover.getOrientation(), is(OrientationEnum.SOUTH));
+		assertThat(rover.getCoordinate().getCoordinateY(), is(1));
+		assertThat(rover.getOrientation(), is(CardinalDirection.SOUTH));
 	}
 	
 	@Test
 	public void testroverRotation() {
-		assertThat(rover.getOrientation(), is(OrientationEnum.NORTH));
+		assertThat(rover.getOrientation(), is(CardinalDirection.NORTH));
 		
-		rover.turnFor("R");
-		rover.turnFor("R");
-		assertThat(rover.getOrientation(), is(OrientationEnum.SOUTH));
+		rover.turnRight();
+		rover.turnRight();
+		assertThat(rover.getOrientation(), is(CardinalDirection.SOUTH));
 		
-		rover.turnFor("R");
-		rover.turnFor("R");
-		assertThat(rover.getOrientation(), is(OrientationEnum.NORTH));
+		rover.turnRight();
+		rover.turnRight();
+		assertThat(rover.getOrientation(), is(CardinalDirection.NORTH));
 		
-		assertThat(rover.getCoordinate().getX(), is(0));
-		assertThat(rover.getCoordinate().getY(), is(0));
+		assertThat(rover.getCoordinate().getCoordinateX(), is(0));
+		assertThat(rover.getCoordinate().getCoordinateY(), is(0));
 	}
 }

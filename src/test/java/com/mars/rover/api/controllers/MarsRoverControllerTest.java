@@ -16,7 +16,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import com.mars.rover.api.enums.OrientationEnum;
+import com.mars.rover.api.enums.CardinalDirection;
+import com.mars.rover.api.exceptions.BeyondLimitException;
+import com.mars.rover.api.exceptions.InvalidCommandException;
 import com.mars.rover.api.factories.RoverFactory;
 import com.mars.rover.api.services.MarsRoverService;
 
@@ -33,119 +35,72 @@ public class MarsRoverControllerTest {
 
 	private static final String URL_BASE = "/mars-rover/api/v1/";
 	
-	
-	@Test
-	public void testInvalidCommand() throws Exception {
-		mvc.perform(MockMvcRequestBuilders.post(URL_BASE + "MMM12M")
-				.accept(MediaType.APPLICATION_JSON))
-				.andExpect(status().isBadRequest())
-				.andExpect(jsonPath("$.data").isEmpty())
-				.andExpect(jsonPath("$.errors").isNotEmpty())
-				.andExpect(jsonPath("$.errors").value("Invalid Command: " + "MMM12M"));
-
-	}
 
 	@Test
 	public void testForwardMove() throws Exception {
 		BDDMockito.given(this.marsRoverService.excuteCommands(Mockito.any(String.class)))
-				.willReturn(RoverFactory.buildRover(0, 4, OrientationEnum.NORTH));
+				.willReturn(RoverFactory.buildRover(0, 4, CardinalDirection.NORTH));
 		
 		mvc.perform(MockMvcRequestBuilders.post(URL_BASE + "MMMM")
 				.accept(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk())
-				.andExpect(jsonPath("$.data.x").value(0))
-				.andExpect(jsonPath("$.data.y").value(4))
-				.andExpect(jsonPath("$.data.direction").value("NORTH"))
-				.andExpect(jsonPath("$.data.currentPosition").value("(0, 4, N)"))
-				.andExpect(jsonPath("$.errors").isEmpty());
-
+				.andExpect(jsonPath("$.coordinateX").value(0))
+				.andExpect(jsonPath("$.coordinateY").value(4))
+				.andExpect(jsonPath("$.direction").value("NORTH"))
+				.andExpect(jsonPath("$.currentPosition").value("(0, 4, N)"));
 	}
 	
 	@Test
 	public void testTurnRight() throws Exception {
 		BDDMockito.given(this.marsRoverService.excuteCommands(Mockito.any(String.class)))
-				.willReturn(RoverFactory.buildRover(2, 0, OrientationEnum.SOUTH));
+				.willReturn(RoverFactory.buildRover(2, 0, CardinalDirection.SOUTH));
 		
 		mvc.perform(MockMvcRequestBuilders.post(URL_BASE + "MMRMMRMM")
 				.accept(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk())
-				.andExpect(jsonPath("$.data.x").value(2))
-				.andExpect(jsonPath("$.data.y").value(0))
-				.andExpect(jsonPath("$.data.direction").value("SOUTH"))
-				.andExpect(jsonPath("$.data.currentPosition").value("(2, 0, S)"))
-				.andExpect(jsonPath("$.errors").isEmpty());
+				.andExpect(jsonPath("$.coordinateX").value(2))
+				.andExpect(jsonPath("$.coordinateY").value(0))
+				.andExpect(jsonPath("$.direction").value("SOUTH"))
+				.andExpect(jsonPath("$.currentPosition").value("(2, 0, S)"));
 
 	}
 	
 	@Test
 	public void testTurnLeft() throws Exception {
 		BDDMockito.given(this.marsRoverService.excuteCommands(Mockito.any(String.class)))
-				.willReturn(RoverFactory.buildRover(0, 2, OrientationEnum.WEST));
+				.willReturn(RoverFactory.buildRover(0, 2, CardinalDirection.WEST));
 		
 		mvc.perform(MockMvcRequestBuilders.post(URL_BASE + "MML")
 				.accept(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk())
-				.andExpect(jsonPath("$.data.x").value(0))
-				.andExpect(jsonPath("$.data.y").value(2))
-				.andExpect(jsonPath("$.data.direction").value("WEST"))
-				.andExpect(jsonPath("$.data.currentPosition").value("(0, 2, W)"))
-				.andExpect(jsonPath("$.errors").isEmpty());
+				.andExpect(jsonPath("$.coordinateX").value(0))
+				.andExpect(jsonPath("$.coordinateY").value(2))
+				.andExpect(jsonPath("$.direction").value("WEST"))
+				.andExpect(jsonPath("$.currentPosition").value("(0, 2, W)"));
+	}
+	
+	@Test
+	public void testInvalidCommand() throws Exception {
+		BDDMockito.given(this.marsRoverService.excuteCommands(Mockito.any(String.class)))
+		.willThrow(new InvalidCommandException('1'));
+		
+		mvc.perform(MockMvcRequestBuilders.post(URL_BASE + "MMM12M")
+				.accept(MediaType.APPLICATION_JSON))
+				.andExpect(status().isBadRequest())
+				.andExpect(jsonPath("$.errors").isNotEmpty())
+				.andExpect(jsonPath("$.errors").value("Invalid Command: 1"));
 
 	}
 	
 	@Test
-	public void testTurnLeftOutOfLimit() throws Exception {
+	public void testOutOfLimit() throws Exception {
 		BDDMockito.given(this.marsRoverService.excuteCommands(Mockito.any(String.class)))
-				.willReturn(RoverFactory.buildRover(-2, 0, OrientationEnum.SOUTH));
+				.willThrow(new BeyondLimitException());
 		
-		mvc.perform(MockMvcRequestBuilders.post(URL_BASE + "MMLMMLMM")
+		mvc.perform(MockMvcRequestBuilders.post(URL_BASE + "MMMMMMMMMMMMMMMMM")
 				.accept(MediaType.APPLICATION_JSON))
 				.andExpect(status().isBadRequest())
-				.andExpect(jsonPath("$.data").isEmpty())
 				.andExpect(jsonPath("$.errors").isNotEmpty())
-				.andExpect(jsonPath("$.errors").value("Invalid Position for the following commands: " + "MMLMMLMM"));
-
-	}
-	
-	@Test
-	public void testTurnRightOutOfLimit() throws Exception {
-		BDDMockito.given(this.marsRoverService.excuteCommands(Mockito.any(String.class)))
-				.willReturn(RoverFactory.buildRover(6, 0, OrientationEnum.EAST));
-		
-		mvc.perform(MockMvcRequestBuilders.post(URL_BASE + "RMMMMMM")
-				.accept(MediaType.APPLICATION_JSON))
-				.andExpect(status().isBadRequest())
-				.andExpect(jsonPath("$.data").isEmpty())
-				.andExpect(jsonPath("$.errors").isNotEmpty())
-				.andExpect(jsonPath("$.errors").value("Invalid Position for the following commands: " + "RMMMMMM"));
-
-	}
-	
-	@Test
-	public void testForwardMoveOutOfLimit() throws Exception {
-		BDDMockito.given(this.marsRoverService.excuteCommands(Mockito.any(String.class)))
-				.willReturn(RoverFactory.buildRover(0, 6, OrientationEnum.NORTH));
-		
-		mvc.perform(MockMvcRequestBuilders.post(URL_BASE + "MMMMMMMMMMMMMMMMMMMMMMMM")
-				.accept(MediaType.APPLICATION_JSON))
-				.andExpect(status().isBadRequest())
-				.andExpect(jsonPath("$.data").isEmpty())
-				.andExpect(jsonPath("$.errors").isNotEmpty())
-				.andExpect(jsonPath("$.errors").value("Invalid Position for the following commands: " + "MMMMMMMMMMMMMMMMMMMMMMMM"));
-
-	}
-	
-	@Test
-	public void testMoveDownwardOutOfLimit() throws Exception {
-		BDDMockito.given(this.marsRoverService.excuteCommands(Mockito.any(String.class)))
-				.willReturn(RoverFactory.buildRover(0, -6, OrientationEnum.NORTH));
-		
-		mvc.perform(MockMvcRequestBuilders.post(URL_BASE + "RRMMMMMM")
-				.accept(MediaType.APPLICATION_JSON))
-				.andExpect(status().isBadRequest())
-				.andExpect(jsonPath("$.data").isEmpty())
-				.andExpect(jsonPath("$.errors").isNotEmpty())
-				.andExpect(jsonPath("$.errors").value("Invalid Position for the following commands: " + "RRMMMMMM"));
-
+				.andExpect(jsonPath("$.errors").value("This action is leaving the rover beyond of terrain limits."));
 	}
 }

@@ -5,53 +5,57 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 
-import com.mars.rover.api.enums.OrientationEnum;
+import com.mars.rover.api.enums.CardinalDirection;
 
 @Component
 @Scope(scopeName="request", proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class Rover {
 	
-	private OrientationEnum orientation;
-	
 	@Autowired
-	private Coordinate coordinate;
+	private Position position;
+	
+	private CardinalDirection cardinalDirection;
 	
 	public Rover() {
-		this.orientation = OrientationEnum.NORTH;
+		this.cardinalDirection = CardinalDirection.NORTH;
 	}
 	
-	public Rover(OrientationEnum orientation, Coordinate coordinate) {
+	public Rover(CardinalDirection cardinalDirection, Position coordinate) {
 		super();
-		this.orientation = orientation;
-		this.coordinate = coordinate;
+		this.cardinalDirection = cardinalDirection;
+		this.position = coordinate;
 	}
 
-	public void turnFor(String direction) {
-		this.orientation = orientation.turnFor(direction);
+	public void turnRight() {
+		this.cardinalDirection = cardinalDirection.goRight();
+	}
+	
+	public void turnLeft() {
+		this.cardinalDirection = cardinalDirection.goLeft();
 	}
 	
 	public void moveOn() {
-		switch (orientation) {
+		switch (cardinalDirection) {
 		case NORTH:
-			coordinate.incY();
+			position.forwardCoordinateY();
 			break;
 		case SOUTH:
-			coordinate.decY();
+			position.backwardCoordinateY();
 			break;	
 		case EAST:
-			coordinate.incX();
+			position.forwardCoordinateX();
 			break;
 		case WEST:
-			coordinate.decX();
+			position.backwardCoordinateX();
 			break;	
 		}
 	}
 		
-	public OrientationEnum getOrientation() {
-		return orientation;
+	public CardinalDirection getOrientation() {
+		return cardinalDirection;
 	}
 
-	public Coordinate getCoordinate() {
-		return coordinate;
+	public Position getCoordinate() {
+		return position;
 	}
 }

@@ -1,25 +1,25 @@
 package com.mars.rover.api.dtos;
 
 public class RoverDto {
-	private Integer x;
-	private Integer y;
+	private int coordinateX;
+	private int coordinateY;
 	private String direction;
 	private String currentPosition;
 	
-	public Integer getX() {
-		return x;
+	public int getCoordinateX() {
+		return coordinateX;
 	}
 	
-	public void setX(Integer x) {
-		this.x = x;
+	public void setCoordinateX(Integer x) {
+		this.coordinateX = x;
 	}
 	
-	public Integer getY() {
-		return y;
+	public int getCoordinateY() {
+		return coordinateY;
 	}
 	
-	public void setY(Integer y) {
-		this.y = y;
+	public void setCoordinateY(int y) {
+		this.coordinateY = y;
 	}
 	
 	public String getDirection() {
