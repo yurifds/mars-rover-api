@@ -6,9 +6,9 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.mars.rover.api.command.RoverCommand;
 import com.mars.rover.api.domain.Rover;
 import com.mars.rover.api.exceptions.InvalidCommandException;
-import com.mars.rover.api.rover.command.RoverCommand;
 import com.mars.rover.api.services.MarsRoverService;
 
 @Service

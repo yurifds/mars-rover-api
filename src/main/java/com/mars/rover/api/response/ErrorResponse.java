@@ -1,4 +1,4 @@
-package com.mars.rover.api.error.response;
+package com.mars.rover.api.response;
 
 import java.util.ArrayList;
 import java.util.Collections;

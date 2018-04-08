@@ -7,9 +7,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-import com.mars.rover.api.error.response.ErrorResponse;
 import com.mars.rover.api.exceptions.BeyondLimitException;
 import com.mars.rover.api.exceptions.InvalidCommandException;
+import com.mars.rover.api.response.ErrorResponse;
 
 @ControllerAdvice
 public class ResponseExceptionHandler {

@@ -1,4 +1,4 @@
-package com.mars.rover.api.rover.command;
+package com.mars.rover.api.command;
 
 import com.mars.rover.api.domain.Rover;
 
