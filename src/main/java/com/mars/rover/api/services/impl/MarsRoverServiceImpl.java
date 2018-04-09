@@ -19,7 +19,7 @@ public class MarsRoverServiceImpl implements MarsRoverService {
 	private static final Map<Character, RoverCommand> commands = new HashMap<Character, RoverCommand>();
 
 	static {
-		commands.put('M', Rover::goForward);
+		commands.put('M', Rover::move);
 		commands.put('R', Rover::turnRight);
 		commands.put('L', Rover::turnLeft);
 	}

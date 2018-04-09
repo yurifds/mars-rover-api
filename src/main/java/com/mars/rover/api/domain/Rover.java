@@ -46,7 +46,7 @@ public class Rover {
 		this.cardinalDirection = cardinalDirection.goLeft();
 	}
 
-	public void goForward() {
+	public void move() {
 		coordinateCommands.get(cardinalDirection.getPrefix()).apply(position);
 	}
 
