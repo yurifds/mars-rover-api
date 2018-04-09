@@ -1,5 +1,9 @@
 package com.mars.rover.api.enums;
 
+import java.util.HashMap;
+import java.util.Map;
+
+
 public enum CardinalDirection {
 	NORTH('N'),
 	SOUTH('S'),
@@ -7,47 +11,32 @@ public enum CardinalDirection {
 	WEST('W');
 	
 	private char prefix;
-
+	
+	private static final Map<Character, CardinalDirection> toRight = new HashMap<Character, CardinalDirection>();
+	private static final Map<Character, CardinalDirection> toLeft = new HashMap<Character, CardinalDirection>();
+	
+	static {
+		toRight.put('N', CardinalDirection.EAST);
+		toRight.put('S', CardinalDirection.WEST);
+		toRight.put('E', CardinalDirection.SOUTH);
+		toRight.put('W', CardinalDirection.NORTH);
+		
+		toLeft.put('N', CardinalDirection.WEST);
+		toLeft.put('S', CardinalDirection.EAST);
+		toLeft.put('E', CardinalDirection.NORTH);
+		toLeft.put('W', CardinalDirection.SOUTH);
+	}
+	
 	private CardinalDirection(char prefix) {
 		this.prefix = prefix;
 	}
 	
-	public CardinalDirection goRight() {
-		CardinalDirection orientation = this;
-		switch (this) {
-		case NORTH:
-			orientation = CardinalDirection.EAST;
-			break;
-		case SOUTH:
-			orientation = CardinalDirection.WEST;
-			break;
-		case EAST:
-			orientation = CardinalDirection.SOUTH;
-			break;
-		case WEST:
-			orientation = CardinalDirection.NORTH;
-			break;
-		}
-		return orientation;
+	public CardinalDirection goRight() {		
+		return toRight.get(this.prefix);
 	}
 	
 	public CardinalDirection goLeft() {
-		CardinalDirection orientation = this;
-		switch (this) {
-		case NORTH:
-			orientation = CardinalDirection.WEST;
-			break;
-		case SOUTH:
-			orientation = CardinalDirection.EAST;
-			break;
-		case EAST:
-			orientation = CardinalDirection.NORTH;
-			break;
-		case WEST:
-			orientation = CardinalDirection.SOUTH;
-			break;
-		}
-		return orientation;
+		return toLeft.get(this.prefix);
 	}
 	
 	public char getPrefix() {
