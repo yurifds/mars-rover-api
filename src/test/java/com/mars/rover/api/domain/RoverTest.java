@@ -37,7 +37,7 @@ public class RoverTest {
 	public void testMoveOn() {
 		assertThat(rover.getOrientation(), is(CardinalDirection.NORTH));
 		assertThat(rover.getCoordinate().getCoordinateY(), is(0));
-		rover.moveOn();
+		rover.goForward();
 		assertThat(rover.getCoordinate().getCoordinateY(), is(1));
 		assertThat(rover.getCoordinate().getCoordinateX(), is(0));
 	}
@@ -47,7 +47,7 @@ public class RoverTest {
 		assertThat(rover.getOrientation(), is(CardinalDirection.NORTH));
 		rover.turnRight();
 		assertThat(rover.getOrientation(), is(CardinalDirection.EAST));
-		rover.moveOn();
+		rover.goForward();
 		assertThat(rover.getCoordinate().getCoordinateX(), is(1));
 		assertThat(rover.getCoordinate().getCoordinateY(), is(0));
 	}
@@ -56,8 +56,8 @@ public class RoverTest {
 	public void testMoveToLeft() {
 		assertThat(rover.getOrientation(), is(CardinalDirection.NORTH));
 		rover.turnRight();
-		rover.moveOn();
-		rover.moveOn();
+		rover.goForward();
+		rover.goForward();
 		assertThat(rover.getCoordinate().getCoordinateX(), is(2));
 		
 		rover.turnLeft();
@@ -65,7 +65,7 @@ public class RoverTest {
 		
 		assertThat(rover.getOrientation(), is(CardinalDirection.WEST));
 		
-		rover.moveOn();
+		rover.goForward();
 		
 		assertThat(rover.getCoordinate().getCoordinateX(), is(1));
 	}
@@ -73,8 +73,8 @@ public class RoverTest {
 	@Test
 	public void testMoveToSouth() {
 		assertThat(rover.getOrientation(), is(CardinalDirection.NORTH));
-		rover.moveOn();
-		rover.moveOn();
+		rover.goForward();
+		rover.goForward();
 		
 		assertThat(rover.getCoordinate().getCoordinateY(), is(2));
 		rover.turnLeft();
@@ -83,7 +83,7 @@ public class RoverTest {
 		rover.turnLeft();
 		assertThat(rover.getOrientation(), is(CardinalDirection.SOUTH));
 		
-		rover.moveOn();
+		rover.goForward();
 		
 		assertThat(rover.getCoordinate().getCoordinateY(), is(1));
 		assertThat(rover.getOrientation(), is(CardinalDirection.SOUTH));

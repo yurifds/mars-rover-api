@@ -38,7 +38,7 @@ public class Position {
 	}
 	
 	public void forwardCoordinateY() {
-		if(++this.coordinateY > terrain.getMaxLimitY())
+		if(++coordinateY > terrain.getMaxLimitY())
 			throw new BeyondLimitException();
 	}
 	

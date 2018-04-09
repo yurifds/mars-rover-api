@@ -1,25 +1,37 @@
 package com.mars.rover.api.domain;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 
+import com.mars.rover.api.command.CoordinateCommand;
 import com.mars.rover.api.enums.CardinalDirection;
 
 @Component
-@Scope(scopeName="request", proxyMode = ScopedProxyMode.TARGET_CLASS)
+@Scope(scopeName = "request", proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class Rover {
-	
+
 	@Autowired
 	private Position position;
-	
+
 	private CardinalDirection cardinalDirection;
+	private static final Map<Character, CoordinateCommand> coordinateCommands = new HashMap<Character, CoordinateCommand>();
 	
+	static {
+		coordinateCommands.put('N', Position::forwardCoordinateY);
+		coordinateCommands.put('S', Position::backwardCoordinateY);
+		coordinateCommands.put('E', Position::forwardCoordinateX);
+		coordinateCommands.put('W', Position::backwardCoordinateX);
+	}
+
 	public Rover() {
 		this.cardinalDirection = CardinalDirection.NORTH;
 	}
-	
+
 	public Rover(CardinalDirection cardinalDirection, Position coordinate) {
 		super();
 		this.cardinalDirection = cardinalDirection;
@@ -29,28 +41,15 @@ public class Rover {
 	public void turnRight() {
 		this.cardinalDirection = cardinalDirection.goRight();
 	}
-	
+
 	public void turnLeft() {
 		this.cardinalDirection = cardinalDirection.goLeft();
 	}
-	
-	public void moveOn() {
-		switch (cardinalDirection) {
-		case NORTH:
-			position.forwardCoordinateY();
-			break;
-		case SOUTH:
-			position.backwardCoordinateY();
-			break;	
-		case EAST:
-			position.forwardCoordinateX();
-			break;
-		case WEST:
-			position.backwardCoordinateX();
-			break;	
-		}
+
+	public void goForward() {
+		coordinateCommands.get(cardinalDirection.getPrefix()).apply(position);
 	}
-		
+
 	public CardinalDirection getOrientation() {
 		return cardinalDirection;
 	}
