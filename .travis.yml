@@ -11,8 +11,5 @@ before_script:
 script:
   - mvn test
   - mvn jacoco:report
-format-coverage:
-  - JACOCO_SOURCE_PATH=src/main/java ./cc-test-reporter \
-	format-coverage target/site/jacoco/jacoco.xml     \
- 	--input-type jacoco
-	./cc-test-reporter upload-coverage
+after_script:
+  - ./cc-test-reporter after-build -t jacoco target/site/jacoco/jacoco.xml --exit-code $TRAVIS_TEST_RESULT
