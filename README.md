@@ -31,32 +31,65 @@ Assume that the square directly North from (x, y) is (x, y+1).
 
 ```
 Rotation for the Right:
-Input: curl -s --request POST http://localhost:8080/mars-rover/api/v1/MMRMMRMM
-Output: (2, 0, S)
+
+Request: curl -s --request POST http://localhost:8080/mars-rover/api/v1/MMRMMRMM
+
+Response: {
+    "coordinateX": 2,
+    "coordinateY": 0,
+    "direction": "SOUTH",
+    "currentPosition": "(2, 0, S)"
+}
 ```
 
 ```
 Rotation for the Left:
-Input: curl -s --request POST http://localhost:8080/mars-rover/api/v1/MML
-Output: (0, 2, W)
+
+Request: curl -s --request POST http://localhost:8080/mars-rover/api/v1/MML
+
+Response: {
+    "coordinateX": 0,
+    "coordinateY": 2,
+    "direction": "WEST",
+    "currentPosition": "(0, 2, W)"
+}
 ```
 
 ```
 Repeating the previous request:
-Input: curl -s --request POST http://localhost:8080/mars-rover/api/v1/MML
-Output: (0, 2, W)
+
+Request: curl -s --request POST http://localhost:8080/mars-rover/api/v1/MML
+
+Response: {
+    "coordinateX": 0,
+    "coordinateY": 2,
+    "direction": "WEST",
+    "currentPosition": "(0, 2, W)"
+}
 ```
 
 ```
 Invalid Command:
-Input: curl -s --request POST http://localhost:8080/mars-rover/api/v1/AAA
-Output: 400 Bad Request
+
+Request: curl -s --request POST http://localhost:8080/mars-rover/api/v1/AAA
+
+Response: {
+    "errors": [
+        "Invalid Command: A"
+    ]
+}
 ```
 
 ```
 Invalid Position:
-Input: curl -s --request POST http://localhost:8080/mars-rover/api/v1/MMMMMMMMMMMMMMMMMMMMMMMM
-Output: 400 Bad Request
+
+Request: curl -s --request POST http://localhost:8080/mars-rover/api/v1/MMMMMMMMMMMMMMMMMMMMMMMM
+
+Response: {
+    "errors": [
+        "This action is leaving the rover beyond of terrain limits."
+    ]
+}
 ```
 
 
