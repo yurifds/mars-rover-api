@@ -1,6 +1,6 @@
 # mars-rover-api
 
-[![Build Status](https://travis-ci.org/yurifds/mars-rover-api.svg?branch=master)](https://travis-ci.org/yurifds/mars-rover-api) [![Maintainability](https://api.codeclimate.com/v1/badges/20d0c8daea208f9cd043/maintainability)](https://codeclimate.com/github/yurifds/mars-rover-api/maintainability) [![Coverage Status](https://coveralls.io/repos/github/yurifds/mars-rover-api/badge.svg?branch=master)](https://coveralls.io/github/yurifds/mars-rover-api?branch=master)
+[![Build Status](https://travis-ci.org/yurifds/mars-rover-api.svg?branch=master)](https://travis-ci.org/yurifds/mars-rover-api) [![Maintainability](https://api.codeclimate.com/v1/badges/20d0c8daea208f9cd043/maintainability)](https://codeclimate.com/github/yurifds/mars-rover-api/maintainability) [![codecov](https://codecov.io/gh/yurifds/mars-rover-api/branch/master/graph/badge.svg)](https://codecov.io/gh/yurifds/mars-rover-api)
 
 
 ### The Challenge
